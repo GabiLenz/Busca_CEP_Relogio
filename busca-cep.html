@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+           #showCepInfo {
+            border: 1px solid hsl(258, 65%, 8%); 
+            background-color: rgba(220, 180, 255, 0.802); 
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            padding: 10px; 
+            width: 30%;
+            height: 50%;
+           }
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabriela Lenz</title>
+</head>
+
+<body>
+    <form id="frmCepSearch">
+        <label for="cepSearch">
+            Informe seu CEP:
+        </label>
+        <input 
+        type="text" 
+        id="cepSearch"
+        maxlength="8" 
+        minlength="8" 
+        required
+        placeholder="Digite seu CEP somente números">
+        <span id="error-message" style="color: red;"></span>
+    </form>
+    <H1 id="showCepInfo"> </H1>
+
+    <script>
+        const frmCepSearch = document.querySelector("#frmCepSearch");
+        const errorMessage = document.querySelector("#error-message");
+        const showCepInfo = document.querySelector("#showCepInfo");
+        
+        frmCepSearch.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const cepValue = frmCepSearch.cepSearch.value;
+            const cepInput = document.querySelector("#cepSearch");
+
+            const regex = /^\d+$/;
+            if (regex.test(cepValue)) {
+
+                console.log(cepValue);
+                errorMessage.textContent = ""; 
+
+                if (cepValue.length === 8) {
+                    fetch(`https://viacep.com.br/ws/${cepValue}/json/`)
+                        .then(function (response) {
+                            return response.json();
+                        })
+                        .then(function (cepData) {
+                            showCepInfo.textContent = `Cidade: ${cepData.localidade}, UF: ${cepData.uf}`;
+                            showCepInfo.style.border = "1px solid #ccc";
+                            showCepInfo.style.backgroundColor = "rgba(220, 180, 255, 0.802)";
+                            showCepInfo.style.fontFamily = "Times New Roman', Times, serif, sans-serif";
+                            showCepInfo.style.padding = "10px";
+                        })
+                        .catch(function () {
+                            console.log("Deu erro");
+                        });
+                } else {
+                    showCepInfo.textContent = "";
+                }
+            } else {
+                errorMessage.textContent = "O CEP deve conter apenas números.";
+                showCepInfo.textContent = "";
+            }
+        });
+    </script>
+</body>
+
+</html>

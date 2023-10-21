@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabriela Lenz</title>
+</head>
+<body>
+    <h1 id="clockDisplay" 
+    style=" padding: 20px;
+    width: 200px;
+    height: 200px;
+    background: rgb(45, 0, 71);
+    color: rgb(246, 181, 255);
+    border-radius: 50%; 
+    font-family: 'Times New Roman', Times, serif, sans-serif;
+    text-align: center;
+    font-size: 36px;
+    line-height: 200px;
+    box-shadow: 0 0 10000px rgba(40, 10, 65, 0.685);
+    ">
+    
+
+    </h1>
+
+
+    <script>        
+        function adjustTime(value){
+            if (value < 10){
+                return "0" + value;
+            }
+            return value;
+        }
+
+        const clockDisplay = document.querySelector("#clockDisplay");
+
+        const clockInterval = setInterval (function () {
+            const actualDate = new Date;
+            const hour = adjustTime (actualDate.getHours());
+            const minute = adjustTime (actualDate.getMinutes());
+            const second =  adjustTime(actualDate.getSeconds());
+           
+
+        clockDisplay.textContent = hour + ":" + minute + ":" + second;
+        }, 1000);
+        
+        setTimeout(function(){
+            clearInterval(clockInterval);
+
+        }, 5000);
+            
+
+    </script>
+
+
+</body>
+</html>
